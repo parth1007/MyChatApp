@@ -8,7 +8,9 @@ import Typography from '@mui/material/Typography';
 
 const UserListItem = ({resUser,handleChatClick}) => {
   return (
-    <List sx={{ width: '90%',padding:"0px", maxWidth: 360, bgcolor: 'background.paper', marginTop:"3px",marginLeft:"5%", borderRadius:"5px" }}>
+    <List sx={{ cursor: "pointer",width: '90%',padding:"0px", maxWidth: 360, bgcolor: 'background.paper', marginTop:"3px",marginLeft:"5%", borderRadius:"5px" }}
+        onClick={handleChatClick}    
+    >
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
         <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />

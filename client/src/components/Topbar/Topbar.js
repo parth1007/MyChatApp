@@ -1,5 +1,15 @@
-import React from 'react'
-import './Topbar.css'
+// React Imports
+
+import React from 'react';
+import {useState,useEffect,useRef} from 'react';
+import {useNavigate} from 'react-router';
+import {ChatState} from '../../Context/ChatProvider';
+import './Topbar.css';
+
+
+
+// Material ui imports
+
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
@@ -12,54 +22,80 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 
-import {useState,useEffect} from 'react';
-import {useNavigate} from 'react-router';
-import {ChatState} from '../../Context/ChatProvider';
 
 
 
 
 const TopbarStyle = () => {
 
-    const navigate = useNavigate();
-    const [search, setSearch] = useState('');
-
-    const {user,toggleDrawer,setToggleDrawer}  = ChatState();
+    // UseState Declarations
+    
     const [toggleProfileDropdown,setToggleProfileDropdown]  = useState(false);
-
-    // useEffect(() => {
-    //   console.log("I am in topbar")
-    //   console.log(user);
-    //   // console.log(user.name);
-    // }, [])
-
+    // const [profileDropDown, setProfileDropDown] = useState(null);
     const [openModal, setOpenModal] = React.useState(false);
-    const handleOpenModal = () => setOpenModal(true);
-    const handleCloseModal = () => setOpenModal(false);
 
 
+    // ContextAPI hook
+    const {user,toggleDrawer,setToggleDrawer}  = ChatState();
+    
+    // const open = Boolean(profileDropDown);
+    const navigate = useNavigate();
+
+
+    // useEffect Declaration
+
+
+
+
+    // For auto closing of profile dropdown on clicking outside the box
+
+    let dropDownRef = useRef();
+    useEffect(() => {
+        if(toggleProfileDropdown === true) {
+            let handler = (event) => {
+              console.log("Hello");
+              console.log(event.target);
+              console.log(dropDownRef.current);
+              if(!dropDownRef.current.contains(event.target)){
+                setToggleProfileDropdown(false);
+              }
+            };
+
+            document.addEventListener("mousedown",handler);
+          
+            return () => {
+              document.removeEventListener("mousedown",handler);
+            }
+        }
+    })
+
+
+    // Function Declarations
 
   const toggleSidedrawer = () => {
     setToggleDrawer(!toggleDrawer);
-    console.log(user);
+    console.log("SideDrawer opened");
   }
 
-  const [profileDropDown, setProfileDropDown] = useState(null);
-  const open = Boolean(profileDropDown);
   
   const handleDropDown = () => {
-    console.log("I am in handleDropDown");
-    // console.log(user.name);
     setToggleProfileDropdown(!toggleProfileDropdown);
   };
+
 
   const handleLogout = () => {
 
     localStorage.removeItem("userInfo");
-    // setUser(null);
     navigate("/login");
-    console.log("logout completed")
+    console.log("Logged out Successfully!")
   }
+
+
+  
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
+
 
   return (
     <div className = "topbar">
@@ -72,18 +108,17 @@ const TopbarStyle = () => {
           <InputBase style={{backgroundColor:"rgb(59 138 217)",color:"white",marginLeft:"1rem"}}
             
             placeholder="Search..."
-            onChange={(e) => {setSearch(e.target.value)}}  
           />
         </div>
       </div>
-      {/* {user.name} */}
+      {user?.name}
       <div className = "topbar-right">
         <div className="profilebtns">
             <Badge badgeContent={4} color="primary" style={{marginRight:"2rem"}}>
                 <NotificationsIcon style={{fontSize:"1.8rem",color:"white",}}/>
             </Badge>
             <AccountCircle style={{fontSize:"1.8rem",color:"white",marginRight:"2rem",cursor:"pointer"}} onClick={handleDropDown}/>
-            {toggleProfileDropdown && <div className="profile-dropdown">
+            {toggleProfileDropdown && <div className="profile-dropdown" ref={dropDownRef}>
               
               <div className="pdrop-item" onClick={handleOpenModal}>My Profile</div>
               <div className="pdrop-item" onClick={handleLogout}>Logout</div>
@@ -128,4 +163,4 @@ const TopbarStyle = () => {
   )
 }
 
-export default TopbarStyle
+export default TopbarStyle;

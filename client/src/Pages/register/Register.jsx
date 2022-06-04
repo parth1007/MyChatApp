@@ -23,8 +23,6 @@ export default function Register() {
       passwordref.current.setCustomValidity("Passwords don't match");
     }
     else{
-      
-
       console.log(name, email, password, profilePic);
 
       try {
