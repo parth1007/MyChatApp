@@ -86,12 +86,13 @@ const SideDrawer = () => {
 
       setChatLoading(false);
       setSelectedChat(res.data);
+
       closeDrawer();
-      
+      console.log(chats);
       console.log(res.data);
     } catch (error) {
       console.log(error.message);
-      alert(error)
+      alert("error in access chat")
     }
   }
 
@@ -148,7 +149,7 @@ const SideDrawer = () => {
             searchResult?.map((resUser) => (
               // <ChatListObject userName={listItem.name} senderName="Email" msg={listItem.email}/>
               <UserListItem key={resUser._id}
-              resUser={resUser}
+                resUser={resUser}
                 handleChatClick={() => {accessChat(resUser._id)}}/>
             ))}
 

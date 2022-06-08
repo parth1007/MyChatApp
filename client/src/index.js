@@ -4,12 +4,14 @@ import './index.css';
 import App from './App';
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import ChatProvider from './Context/ChatProvider'
-
+import { BrowserRouter } from "react-router-dom"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <ChatProvider>
-      <App />
-  </ChatProvider>
+  <BrowserRouter>
+    <ChatProvider>
+        <App />
+    </ChatProvider>
+  </BrowserRouter>
 );
 

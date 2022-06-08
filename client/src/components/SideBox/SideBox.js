@@ -1,17 +1,29 @@
+// React Imports
+
 import React from 'react'
+import {useState,useEffect} from 'react';
+import axios from "axios";
+
+
+// Import Components
+
+import ChatListObject from '../miscelleneus/ChatListObject';
+import {ChatState} from '../../Context/ChatProvider';
+import ChatLoading from '../miscelleneus/ChatLoading';
+import GroupChatModal from '../miscelleneus/GroupChatModal';
 import './SideBox.css'
+
+
+// Material ui imports
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@material-ui/core/Button';
-import ChatListObject from '../miscelleneus/ChatListObject';
 import Divider from '@mui/material/Divider';
-import {useState,useEffect} from 'react';
-import {ChatState} from '../../Context/ChatProvider';
-import axios from "axios";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const SideBox = () => {
 
   const [loggedUser, setLoggedUser] = useState();
-  const {user,toggleDrawer,setToggleDrawer,selectedChat, setSelectedChat,chats, setChats}  = ChatState();
+  const {user,toggleDrawer,setToggleDrawer,selectedChat, setSelectedChat,chats, setChats,fetchAgain}  = ChatState();
 
   const userInfo =  JSON.parse(localStorage.getItem("userInfo"));
 
@@ -20,15 +32,16 @@ const SideBox = () => {
   const fetchChats = async () => {
     
     try {
-
+      console.log("In Side box")
+      // console.log(loggedUser)
       const config = {
         headers: {
-          Authorization: `Bearer ${userInfo.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       };
-      const res = await axios.get('http://localhost:8000/api/chats', config);
+      const res = await axios.get('http://localhost:8000/api/chat', config);
       console.log(res.data);
-      // setChats(res.data);
+      setChats(res.data);
 
 
     } catch (error) {
@@ -41,8 +54,17 @@ const SideBox = () => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
   
-    
-  }, [])
+  }, [fetchAgain])
+
+  const tempChatsFetching = async () => {
+    try {
+      setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
+      fetchChats();
+    } catch (error) {
+      alert(error.message);
+      console.log(error.message);
+    }
+  }
   
 
 
@@ -52,29 +74,39 @@ const SideBox = () => {
         <div className="sidebox-header-title">
           My Chats
         </div>
-        <Button variant="outlined" style = {{backgroundColor:"#e1e1e1"}}>
-          New Group Chat      
-          <AddIcon/>
-        </Button>
+        <ChakraProvider>
+          <GroupChatModal>
+            <Button variant="outlined" style = {{backgroundColor:"#e1e1e1"}} onClick={tempChatsFetching}>
+              New Group Chat      
+              <AddIcon/>
+            </Button>
+          </GroupChatModal>
+        </ChakraProvider>
       </div>
 
-      <div className="chatlist">
-        <ChatListObject userName="Parth Soni" senderName="farza" msg="Great work there!!"/>
-        <Divider variant="inset" />
+      {/* <div className="chatlist"> */}
+        {/* <ChatListObject userName="Parth Soni" senderName="farza" msg="Great work there!!"/>
+        <Divider variant="inset" /> */}
+
+        {chats? (
+          <div className="chatlist">
+            {chats.map((chat) =>(
+              // <ChatListObject userName={chat.userName} senderName={chat.senderName} msg={chat.msg}/>
+        //  <ChatListObject userName="Parth Soni" senderName="farza" msg="Great work there!!"/>
+
+              <ChatListObject 
+                  key={chat._id} 
+                  chatObject={chat} 
+                  loggedUser = {user}
+                  />
+              ))}
+          </div>
+        ) :(
+          <ChatLoading/>
+        )}
 
 
-          {/* {
-            chats?.map((resUser) => (
-              <UserListItem key={resUser._id}
-              resUser={resUser}
-                handleChatClick={() => {accessChat(resUser._id)}}/>
-            ))
-          } */}
-
- {/* <ChatListObject userName={listItem.name} senderName="Email" msg={listItem.email}/> */}
-
-        
-      </div>
+      
     </div>
   )
 }

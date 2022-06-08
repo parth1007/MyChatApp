@@ -7,7 +7,6 @@ import {ChatState} from '../../Context/ChatProvider';
 import './Topbar.css';
 
 
-
 // Material ui imports
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -33,10 +32,11 @@ const TopbarStyle = () => {
     const [toggleProfileDropdown,setToggleProfileDropdown]  = useState(false);
     // const [profileDropDown, setProfileDropDown] = useState(null);
     const [openModal, setOpenModal] = React.useState(false);
+    const [toggleNotification, setToggleNotification] = useState(false);
 
 
     // ContextAPI hook
-    const {user,toggleDrawer,setToggleDrawer}  = ChatState();
+    const {user,toggleDrawer,setToggleDrawer,setSelectedChat,notification, setNotification}  = ChatState();
     
     // const open = Boolean(profileDropDown);
     const navigate = useNavigate();
@@ -114,9 +114,29 @@ const TopbarStyle = () => {
       {user?.name}
       <div className = "topbar-right">
         <div className="profilebtns">
-            <Badge badgeContent={4} color="primary" style={{marginRight:"2rem"}}>
-                <NotificationsIcon style={{fontSize:"1.8rem",color:"white",}}/>
+         
+            <Badge badgeContent={notification.length} color="primary" style={{marginRight:"2rem"}} onClick={()=>{setToggleNotification(!toggleNotification)}}>
+                <NotificationsIcon style={{fontSize:"1.8rem",color:"white"}}/>
             </Badge>
+            { toggleNotification && 
+              <div className="notification-list">
+                {!notification?.length && "No new messages"}
+                {notification?.map((item,index) => (
+                  <div key={index} className="notif-item" onClick={()=>{
+                    setSelectedChat(item.chat);
+                    setNotification(notification.filter((n) => n !== item));
+                    setToggleNotification(!toggleNotification)
+                  }
+                      
+                      }>
+                    {item?.chat?.isGroupChat?`New message in ${item?.chat?.chatName}`:
+                    `New message from ${item?.chat?.users[0]?._id ===user?._id ? item?.chat?.users[1].name : item?.chat?.users[0].name 
+                    }`};
+                  </div>
+                ))}
+              </div>}
+          
+          
             <AccountCircle style={{fontSize:"1.8rem",color:"white",marginRight:"2rem",cursor:"pointer"}} onClick={handleDropDown}/>
             {toggleProfileDropdown && <div className="profile-dropdown" ref={dropDownRef}>
               
@@ -147,10 +167,10 @@ const TopbarStyle = () => {
                     p: 4,
                   }}>
                   <Typography id="transition-modal-title" variant="h6" component="h2">
-                    Parth Soni
+                    {user?.name}
                   </Typography>
                   <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                    {user?.email}
                   </Typography>
                 </Box>
               </Fade>

@@ -16,7 +16,7 @@ const UserListItem = ({resUser,handleChatClick}) => {
         <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
       </ListItemAvatar>
       <ListItemText
-        primary={resUser.name}
+        primary={resUser?.name}
         secondary={
           <React.Fragment>
             <Typography
@@ -27,7 +27,7 @@ const UserListItem = ({resUser,handleChatClick}) => {
             >
              Email
             </Typography>
-            {" : "}{resUser.email}
+            {" : "}{resUser?.email}
           </React.Fragment>
         }
       />
