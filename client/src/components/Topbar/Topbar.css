@@ -1,7 +1,8 @@
 .topbar{
     height: 8vh;
     width: 100%;
-    background-color: rgb(25 118 210);
+    /* background-color: rgb(25 118 210); */
+    background-color: #D8DBE3;
     display: flex;
     /* justify-content: space-between; */
     align-items: center;
@@ -26,13 +27,15 @@
 }
 
 .topsearch{
-    background-color: rgb(59 138 217);
+    /* background-color: rgb(59 138 217); */
+    background-color: #ffffff;
     height: 70%;
-    width:30vw;
+    width:20vw;
     display: flex;
     align-items: center;
-    border-radius: 8px;
+    border-radius: 25px;
     margin-left: 4rem;
+    cursor:pointer
     
 }
 

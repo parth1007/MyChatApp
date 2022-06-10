@@ -6,7 +6,7 @@ import {ChatState} from '../../Context/ChatProvider';
 import CircularProgress from '@mui/material/CircularProgress';
 import UpdateGroupModal from '../miscelleneus/UpdateGroupModal';
 import ScrollableChat from '../miscelleneus/ScrollableChat';
-
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { ChakraProvider } from "@chakra-ui/react";
 import InfoIcon from '@mui/icons-material/Info';
 import {useState,useEffect} from 'react';
@@ -15,7 +15,6 @@ import io from "socket.io-client"
 import Lottie from "react-lottie"
 const ENDPOINT = "http://localhost:8000";
 var socket,selectedChatCompare;
-
 
 const ChatBox = () => {
 
@@ -190,7 +189,7 @@ const defaultOptions = {
           <div className="chatbox-header">
             <h1 style={{fontWeight:"300",fontSize:"1.8rem",marginLeft:"4rem"}}>
               {!selectedChat?.isGroupChat?
-                  selectedChat?.users[0]?._id ===user?._id ? selectedChat?.users[1].name : selectedChat?.users[0].name 
+                  selectedChat?.users[0]?._id ===user?._id ? selectedChat?.users[1].name : selectedChat?.users[0].name
                     : 
                   selectedChat.chatName
               }
@@ -219,22 +218,26 @@ const defaultOptions = {
                 </div>
               )
           }
-            <div className="message-input">
-            {isTyping ?<div>
+
+          {isTyping ?<div className="typing-animation" >
               <Lottie
                 options={defaultOptions}
-                width={70}
+                width={80}
                 style={{marginBottom:"15",marginLeft:"1"}}
             />
             </div>:<></>}
+            
+            <div className="message-input">
+            
               <FormControl 
                   onKeyDown={sendMessage} 
                   style={{
-                    width:"98%",
-                    backgroundColor:"#868686",
-                    borderRadius:"4px",
+                    width:"90%",
+                    backgroundColor:"#D8DBE3",
+                    borderRadius:"1rem",
                     padding:"0.6rem",
-                    paddingLeft:"2rem"
+                    paddingLeft:"2rem",
+                    height:"3rem",
                   }}>
                     
                 <Input 
@@ -247,6 +250,11 @@ const defaultOptions = {
                     value={newMessage}
                     />
               </FormControl>
+              <div className="send-btn">
+                <SendRoundedIcon style={{paddingLeft:"2px", color:"white"}} onClick={sendMessage}/>
+              </div>
+              
+
             </div>
             
           </div>

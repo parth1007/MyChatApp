@@ -98,14 +98,14 @@ const TopbarStyle = () => {
 
 
   return (
-    <div className = "topbar">
+    <div className = "topbar" onClick={()=>{setSelectedChat(null)}}>
       <div className = "topbar-left">
         <div className="drawerbtn" onClick={ toggleSidedrawer}>
-          <MenuIcon style={{fontSize:"2.3rem",marginLeft:"1rem",color:"white"}}/>
+          <MenuIcon style={{fontSize:"2.3rem",marginLeft:"1rem",color:"black"}}/>
         </div>
-        <div className="topsearch">
-          <SearchIcon style={{fontSize:"1.5rem",marginLeft:"1rem",color:"white"}}/>
-          <InputBase style={{backgroundColor:"rgb(59 138 217)",color:"white",marginLeft:"1rem"}}
+        <div className="topsearch" onClick={ toggleSidedrawer}>
+          <SearchIcon style={{fontSize:"1.5rem",marginLeft:"1rem",color:"black"}}/>
+          <InputBase style={{backgroundColor:"#ffffff",color:"black",marginLeft:"0.5rem"}}
             
             placeholder="Search..."
           />

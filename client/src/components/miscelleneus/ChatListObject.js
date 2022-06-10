@@ -15,9 +15,7 @@ export default function ChatListObject(props) {
 
   const {user,selectedChat, setSelectedChat,chats, setChats}  = ChatState();
 
-  const {chatObject,loggedUser} = props;
-
-  const [chatColor, setChatColor] = useState("background.paper")
+  const {chatObject,loggedUser,backgroundColor} = props;
 
   const activateChat = async () => {
     await setSelectedChat(chatObject);
@@ -28,12 +26,12 @@ export default function ChatListObject(props) {
   return (
     <List 
           onClick={activateChat}
-          sx={{ width: '90%',
+          sx={{ width: '95%',
                 padding:"0px", 
                 maxWidth: 360, 
-                bgcolor: chatColor, 
-                marginTop:"3px",
-                marginLeft:"5%", 
+                bgcolor: backgroundColor, 
+                // marginTop:"3px",
+                marginLeft:"2%", 
                 borderRadius:"5px",
                 cursor: "pointer"
               }}
@@ -58,11 +56,22 @@ export default function ChatListObject(props) {
               >
                {user?.name}
               </Typography>
-              {" : "}{chatObject?.isGroupChat?" true":"false"}
+              {" : "}
+              {chatObject?.isGroupChat?" true":"false"}
+              {/* {chatObject.latestMessage && (
+                  <pre fontSize="xs">
+                    <b>{chatObject.latestMessage.sender.name} : </b>
+                    {chatObject.latestMessage.content.length > 50
+                      ? chatObject.latestMessage.content.substring(0, 51) + "..."
+                      : chatObject.latestMessage.content}
+                  </pre>
+                )} */}
             </React.Fragment>
           }
         />
+
       </ListItem>
+
     </List>
   );
 }

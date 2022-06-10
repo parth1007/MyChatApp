@@ -56,6 +56,7 @@ const SideBox = () => {
   
   }, [fetchAgain])
 
+
   const tempChatsFetching = async () => {
     try {
       setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
@@ -67,43 +68,49 @@ const SideBox = () => {
   }
   
 
-
   return (
     <div className="sidebox">
-      <div className="sidebox-header">
-        <div className="sidebox-header-title">
-          My Chats
-        </div>
-        <ChakraProvider>
-          <GroupChatModal>
-            <Button variant="outlined" style = {{backgroundColor:"#e1e1e1"}} onClick={tempChatsFetching}>
-              New Group Chat      
-              <AddIcon/>
-            </Button>
-          </GroupChatModal>
-        </ChakraProvider>
-      </div>
+          <div className="sidebox-header">
 
-      {/* <div className="chatlist"> */}
-        {/* <ChatListObject userName="Parth Soni" senderName="farza" msg="Great work there!!"/>
-        <Divider variant="inset" /> */}
-
-        {chats? (
-          <div className="chatlist">
-            {chats.map((chat) =>(
-              // <ChatListObject userName={chat.userName} senderName={chat.senderName} msg={chat.msg}/>
-        //  <ChatListObject userName="Parth Soni" senderName="farza" msg="Great work there!!"/>
-
-              <ChatListObject 
-                  key={chat._id} 
-                  chatObject={chat} 
-                  loggedUser = {user}
-                  />
-              ))}
+            <ChakraProvider>
+              <GroupChatModal>
+                <Button variant="outlined" 
+                        onClick={tempChatsFetching} 
+                        style={{backgroundColor: "#ffffff",
+                                padding: "0.6rem 1.3rem",
+                                fontSize:"1rem",
+                                width:"100%",
+                                border:"none",
+                                borderRadius:"1rem"
+                                }}  >
+                  Create A New Group Chat 
+                  <AddIcon style={{marginLeft:"1rem"}}/>
+                </Button>
+              </GroupChatModal>
+            </ChakraProvider>
           </div>
-        ) :(
-          <ChatLoading/>
-        )}
+
+            {chats? (
+              <div className="open-chatlist">
+                {chats.map((chat) =>(
+                  <>
+                      <ChatListObject 
+                          key={chat._id} 
+                          chatObject={chat} 
+                          loggedUser = {user}
+                          backgroundColor={selectedChat === chat ? "#3F8DFF" : "#ffffff"}
+                      />
+                      <hr style={{width:"82%",marginLeft:"15%"}}/>
+
+                  </>
+
+
+                    
+                  ))}
+              </div>
+            ) :(
+              <ChatLoading/>
+            )}
 
 
       

@@ -68,6 +68,27 @@ const SideDrawer = () => {
     }
   }
 
+  const handleSearch =  async (e) => {
+
+    try {
+      setLoading(true);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const res = await axios.get(`http://localhost:8000/api/user?search=${search}`, config);
+      
+      setLoading(false);
+      setSearchResult(res.data);
+      console.log(res.data);
+      console.log(searchResult);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  
 // Creating or accessing a chat with the clicked user
 
   const accessChat  = async (userId) => {
@@ -135,7 +156,11 @@ const SideDrawer = () => {
         <div className="drawer-searchbox">
           <InputBase style={{backgroundColor:"#fff",border:"1px #c8c8c8 black",color:"black",marginLeft:"1rem"}}
              placeholder="Search User..."
-             onChange={(e) => {setSearch(e.target.value)}}
+             onChange={
+               (e) => {
+                 setSearch(e.target.value);
+                 handleSearch();
+              }}
              />
           <Button variant="outlined" onClick={handleSearchSubmit}>Go</Button>
         </div>

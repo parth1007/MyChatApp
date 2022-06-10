@@ -29,14 +29,14 @@ const isSameSenderMargin = (messages, msg, index, userId) => {
       messages[index + 1].sender._id === msg.sender._id &&
       messages[index].sender._id !== userId
     )
-      return 33;
+      return 40;
     else if (
       (index < messages.length - 1 &&
         messages[index + 1].sender._id !== msg.sender._id &&
         messages[index].sender._id !== userId) ||
       (index === messages.length - 1 && messages[index].sender._id !== userId)
     )
-      return 0;
+      return 5;
     else return "auto";
 };
 
@@ -58,10 +58,11 @@ const ScrollableChat = ({messages}) => {
         <ScrollableFeed>
             {messages &&
              messages.map((msg,index) => (
-                <div style={{display: 'flex'}} key={msg._id}>
+                <div style={{display: 'flex',alignItems: 'center'}} key={msg._id}>
                     {
                         (isSameSender(messages,msg,index,user._id) || 
                         isLastMessage(messages,index,user._id)) && (
+                            <span>
                             <Tooltip 
                                 title={msg.sender.name}
                                 placement="bottom-start"
@@ -71,18 +72,20 @@ const ScrollableChat = ({messages}) => {
                                     alt={msg.sender.name} 
                                     src={msg.sender.profilePic}
                                     cursor="pointer"
+                                    sx={{ width: 35, height: 35}}
                                 />
                             </Tooltip>
+                            </span>
                         )}
                     <span style={{
                             backgroundColor: `${
                                 msg.sender._id === user._id ? "#BEE3F8" : "#B9F5D0"
                             }`,
                             marginLeft: isSameSenderMargin(messages, msg, index, user._id),
-                            marginTop: isSameUser(messages, msg, index, user._id) ? 3 : 10,
+                            marginTop: isSameUser(messages, msg, index, user._id) ? 3 : 3,
                             borderRadius: "20px",
                             padding: "5px 15px",
-                            maxWidth: "75%",
+                            maxWidth: "60%",
                         }}>
                         {msg.content}
                     </span>
