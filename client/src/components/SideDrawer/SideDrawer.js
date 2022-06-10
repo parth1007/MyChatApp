@@ -79,7 +79,9 @@ const SideDrawer = () => {
       };
       const res = await axios.get(`http://localhost:8000/api/user?search=${search}`, config);
       
-      setLoading(false);
+      setTimeout(() => {  setLoading(false); }, 2000);
+
+      
       setSearchResult(res.data);
       console.log(res.data);
       console.log(searchResult);
@@ -151,31 +153,45 @@ const SideDrawer = () => {
           Search Users
           <CloseIcon id="drawer-close-btn" onClick = {closeDrawer} style={{cursor:"pointer"}}  />
        </div>
-      <hr/>
       <div className="drawer-body">
         <div className="drawer-searchbox">
-          <InputBase style={{backgroundColor:"#fff",border:"1px #c8c8c8 black",color:"black",marginLeft:"1rem"}}
-             placeholder="Search User..."
-             onChange={
-               (e) => {
-                 setSearch(e.target.value);
-                 handleSearch();
+          <InputBase 
+              placeholder="Search User..."
+              onChange={
+                (e) => {
+                  setSearch(e.target.value);
+                  handleSearch();
+                }}
+              style={{
+                backgroundColor:"#fff",
+                paddingLeft:"1rem",
+                border:"1px #c8c8c8 black",
+                color:"black",
+                marginLeft:"0rem",
+                borderRadius:"0.8rem",
+                width:"70%",
+                height:"2.5rem",
               }}
+             
              />
-          <Button variant="outlined" onClick={handleSearchSubmit}>Go</Button>
+          <Button variant="outlined" onClick={handleSearchSubmit} style={{marginRight:"1rem",height:"2.5rem",borderRadius:"0.5rem"}}>Go</Button>
         </div>
 
         {loading ? (
           <ChatLoading />
+          
         ):(
       
           <div className="chatlist">
             {
             searchResult?.map((resUser) => (
               // <ChatListObject userName={listItem.name} senderName="Email" msg={listItem.email}/>
+              <>
               <UserListItem key={resUser._id}
                 resUser={resUser}
                 handleChatClick={() => {accessChat(resUser._id)}}/>
+                <hr style={{width:"82%",marginLeft:"15%"}}/>
+              </>
             ))}
 
         </div>

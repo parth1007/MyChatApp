@@ -233,10 +233,11 @@ const UpdateGroupChatModal = ({fetchMessages, children }) => {
                 />
               ))}
             </Box>
-            <FormControl d="flex">
+            <FormControl sx={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
               <Input
                 placeholder="Chat Name"
                 mb={3}
+                width={"70%"}
                 value={groupChatName}
                 onChange={(e) => setGroupChatName(e.target.value)}
               />
@@ -244,6 +245,7 @@ const UpdateGroupChatModal = ({fetchMessages, children }) => {
                 variant="solid"
                 colorScheme="teal"
                 ml={1}
+                mb={3}
                 isLoading={renameloading}
                 onClick={handleRename}
               >

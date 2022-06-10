@@ -111,12 +111,11 @@ const TopbarStyle = () => {
           />
         </div>
       </div>
-      {user?.name}
       <div className = "topbar-right">
         <div className="profilebtns">
          
             <Badge badgeContent={notification.length} color="primary" style={{marginRight:"2rem"}} onClick={()=>{setToggleNotification(!toggleNotification)}}>
-                <NotificationsIcon style={{fontSize:"1.8rem",color:"white"}}/>
+                <NotificationsIcon style={{fontSize:"1.8rem",color:"black"}}/>
             </Badge>
             { toggleNotification && 
               <div className="notification-list">
@@ -137,7 +136,7 @@ const TopbarStyle = () => {
               </div>}
           
           
-            <AccountCircle style={{fontSize:"1.8rem",color:"white",marginRight:"2rem",cursor:"pointer"}} onClick={handleDropDown}/>
+            <AccountCircle style={{fontSize:"1.8rem",color:"black",marginRight:"2rem",cursor:"pointer"}} onClick={handleDropDown}/>
             {toggleProfileDropdown && <div className="profile-dropdown" ref={dropDownRef}>
               
               <div className="pdrop-item" onClick={handleOpenModal}>My Profile</div>
