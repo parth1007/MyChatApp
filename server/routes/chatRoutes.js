@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const {accessChat,fetchChats,createGroupChat,renameGroup,removeFromGroup,groupAdd} = require('../controllers/chatControllers');
+const {accessChat,fetchChats} = require('../controllers/chatControllers');
 const {accessJwtToken} = require('../middleware/authMiddleware');
+const {createGroupChat,renameGroup,removeFromGroup,groupAdd} = require('../controllers/groupChatControllers');
+
+
 
 router.post('/',accessJwtToken,accessChat);
 router.get('/',accessJwtToken,fetchChats);

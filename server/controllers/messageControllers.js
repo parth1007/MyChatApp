@@ -3,6 +3,12 @@ const Message = require('../models/Message');
 const User = require('../models/User');
 const Chat = require("../models/Chat");
 
+// Send a message
+// /api/message/
+// Auth Token given
+// Req.body => message content and chatId
+
+
 const sendMessage = asyncHandler(async (req,res) => {
     const {content,chatId} = req.body;
 
@@ -37,6 +43,12 @@ const sendMessage = asyncHandler(async (req,res) => {
     }
 })
 
+
+// Fetch all messages of a given chat
+// /api/message/:chatId
+// Auth Token given
+// Req.param => chatId
+// Req.body => null
 
 const allMessage = asyncHandler(async (req,res) => {
     try {

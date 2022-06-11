@@ -2,6 +2,13 @@ const asyncHandler =  require('express-async-handler');
 const User = require('../models/User');
 const Chat = require('../models/Chat');
 
+
+// Access or create a new chat with a given userId
+// post :: /api/chat/
+// Auth Token given
+// Req.body => userId
+
+
 const accessChat = asyncHandler(async (req,res) => {
     const {userId} = req.body;
     if(!userId){
@@ -25,27 +32,33 @@ const accessChat = asyncHandler(async (req,res) => {
 
       if(isChat.length > 0) {
           res.send(isChat[0]);
-      }else{
+      }
+      else{
           var chatData = {
               chatname: "sender",
               isGroupChat:false,
               users: [req.user._id,userId],
           };
 
-          try {
-              const createdChat = await Chat.create(chatData);
+        try {
+            const createdChat = await Chat.create(chatData);
 
-              const FullChat = await Chat.findOne({_id: createdChat._id}).populate(
-                    "users","-password"
-              );
-              res.status(200).send(FullChat);
+            const FullChat = await Chat.findOne({_id: createdChat._id}).populate(
+                "users","-password"
+            );
+            res.status(200).send(FullChat);
 
-          } catch (error) {
-              res.status(400);
-              throw new Error(error.messege);
-          }
+        } catch (error) {
+            res.status(400);
+            throw new Error(error.messege);
+        }
       }  
 })
+
+
+// Fetch all the chats of logged user
+// get :: /api/chat/
+// Auth Token given
 
 
 const fetchChats = asyncHandler(async (req,res) => {
@@ -64,6 +77,7 @@ const fetchChats = asyncHandler(async (req,res) => {
             })
             res.status(200).send(results);
         })
+        
     } catch (error) {
         res.status(400);
         throw new Error(error.messege);
@@ -71,111 +85,6 @@ const fetchChats = asyncHandler(async (req,res) => {
 })
 
 
-const createGroupChat = asyncHandler(async (req,res) => {
-    if(!req.body.users || !req.body.name){
-        return res.status(400).send({messege:"Please send users and name"});
-    }
-
-    // we send array in stringify formet from frontend and parse here
-    var users = JSON.parse(req.body.users);
-    var groupname = req.body.name;
-
-    if(users.length < 2){
-        return res.status(400).send({messege:"Add more users"})
-    }
-
-    users.push(req.user);
-
-    try {
-        const groupChat = await Chat.create({
-            chatName: req.body.name,
-            users:users,
-            isGroupChat:true,
-            groupAdmin: req.user,
-        });
-
-        const fullGroupChat = await Chat.findOne({_id: groupChat._id})
-            .populate("users","-password")
-            .populate("groupAdmin","-password")
-            
-
-        res.status(200).json(fullGroupChat);
-    } catch (error) {
-        res.status(400);
-        throw new Error(error.messege);
-    }
-});
-
-const renameGroup = asyncHandler(async (req,res) => {
-    const {chatId,chatName} = req.body;
 
 
-    try {
-        const updatedChat = await Chat.findByIdAndUpdate(    
-            chatId,
-        {
-            chatName: chatName,
-        },{
-            new:true,
-        })
-        .populate("users","-password")
-        .populate("groupAdmin","-password")
-            
-
-        res.status(200).json(updatedChat);
-    } catch (error) {
-        res.status(400);
-        throw new Error(error.messege);
-    }
-})
-
-const removeFromGroup = asyncHandler(async (req,res) => {
-    const {chatId,userId} = req.body;
-
-    try {
-        const updatedChat = await Chat.findByIdAndUpdate(
-            chatId,
-            {
-            $pull:{
-                users:userId
-            }
-        },{
-            new:true,
-        })
-        .populate("users","-password")
-        .populate("groupAdmin","-password")
-            
-
-        res.status(200).json(updatedChat);
-    } catch (error) {
-        res.status(400);
-        throw new Error(error.messege);
-    }
-})
-
-
-const groupAdd = asyncHandler(async (req,res) => {
-    const {chatId,userId} = req.body;
-
-    try {
-        const updatedChat = await Chat.findByIdAndUpdate(
-            chatId,
-        {
-            $push:{
-                users:userId
-            }
-        },{
-            new:true,
-        })
-        .populate("users","-password")
-        .populate("groupAdmin","-password")
-            
-
-        res.status(200).json(updatedChat);
-    } catch (error) {
-        res.status(400);
-        throw new Error(error.messege);
-    }
-});
-
-module.exports = {accessChat,fetchChats,createGroupChat,renameGroup,removeFromGroup,groupAdd};
+module.exports = {accessChat,fetchChats};

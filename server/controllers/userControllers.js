@@ -3,6 +3,11 @@ const generateToken = require('../config/generateToken');
 const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcryptjs');
 
+
+// Register User
+// api/user/register
+// Req.body => name, email, password, profilePic
+
 const registerUser = asyncHandler(async (req,res) => {
     const { name,email,password,profilePic} = req.body;
 
@@ -18,6 +23,8 @@ const registerUser = asyncHandler(async (req,res) => {
         throw new Error("User already exists");
     }
 
+    // Password Encryption
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
@@ -27,6 +34,8 @@ const registerUser = asyncHandler(async (req,res) => {
         password:hashedPassword,
         profilePic:profilePic,
     });
+
+
     if (user) {
         res.status(201).json({
           _id: user._id,
@@ -44,6 +53,10 @@ const registerUser = asyncHandler(async (req,res) => {
 });
 
 
+// Login User
+// api/user/login
+// Req.body => email,password
+
 const loginUser = asyncHandler(async (req,res) => {
     const { email,password} = req.body;
 
@@ -60,7 +73,7 @@ const loginUser = asyncHandler(async (req,res) => {
           name: userExists.name,
           email: userExists.email,
           isAdmin: userExists.isAdmin,
-          pic: userExists.pic,
+          profilePic: userExists.profilePic,
           token: generateToken(userExists._id),
         })
     }
@@ -71,8 +84,14 @@ const loginUser = asyncHandler(async (req,res) => {
     
 });
 
-//api/user?search=parth
+
+// Search users for a given search query
+// api/user?search=parth
+// Auth Token given
+
 const allUsers = asyncHandler(async (req, res) => {
+
+    // keyword should satisfy either name or email; check is case-insensitive;
     const keyword = req.query.search ? {
         $or:[
             {name:{$regex:req.query.search,$options:'i'}},
@@ -80,6 +99,7 @@ const allUsers = asyncHandler(async (req, res) => {
         ]
     }:{};
 
+    // Search search result excluding logged user
     const users = await User.find(keyword).find({_id:{$ne:req.user._id}});
     res.send(users);
     

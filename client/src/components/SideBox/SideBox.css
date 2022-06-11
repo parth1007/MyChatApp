@@ -31,7 +31,7 @@
   padding-top:0.5rem;
     margin-top: 1rem;
     overflow-y: scroll;
-    max-height: 90%;
+    height: 90%;
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
     scrollbar-width: none;  /* Firefox */
 }

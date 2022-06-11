@@ -5,9 +5,7 @@ const {sendMessage,allMessage} = require('../controllers/messageControllers');
 
 
 // for sending message
-
 router.post("/",accessJwtToken,sendMessage)
-
 
 // get all messages
 router.get("/:chatId",accessJwtToken,allMessage)

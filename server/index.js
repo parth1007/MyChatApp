@@ -31,9 +31,11 @@ app.use("/api/message", messageRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
-// app.use(chatRoutes);
 
 const server = app.listen(PORT, console.log(`Listening on port ${PORT}`));
+
+
+// ***************** Socket.io Logic ***************** //
 
 
 const io = require("socket.io")(server, {

@@ -89,6 +89,16 @@ import {
         });
         return;
       }
+      else if(selectedUsers.length < 2){
+        toast({
+          title: "Add atleast 2 members",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+        return;
+      }
   
       try {
         const config = {

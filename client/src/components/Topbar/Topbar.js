@@ -56,6 +56,7 @@ const TopbarStyle = () => {
               console.log("Hello");
               console.log(event.target);
               console.log(dropDownRef.current);
+              console.log(user?.profilePic)
               if(!dropDownRef.current.contains(event.target)){
                 setToggleProfileDropdown(false);
               }
@@ -96,9 +97,29 @@ const TopbarStyle = () => {
   const handleCloseModal = () => setOpenModal(false);
 
 
+    // For auto closing of SideDrawer on clicking outside the box
+
+    let notifDropdown = useRef();
+    useEffect(() => {
+  
+      if(toggleNotification === true) {
+          let handler = (event) => {
+            if(!notifDropdown.current.contains(event.target)){
+              setToggleNotification(false);
+            }
+          };
+          document.addEventListener("mousedown",handler);
+  
+          return () => {
+            document.removeEventListener("mousedown",handler);
+          }
+      }
+    })
+  
+
 
   return (
-    <div className = "topbar" onClick={()=>{setSelectedChat(null)}}>
+    <div className = "topbar">
       <div className = "topbar-left">
         <div className="drawerbtn" onClick={ toggleSidedrawer}>
           <MenuIcon style={{fontSize:"2.3rem",marginLeft:"1rem",color:"black"}}/>
@@ -113,8 +134,9 @@ const TopbarStyle = () => {
       </div>
       <div className = "topbar-right">
         <div className="profilebtns">
-         
-            <Badge badgeContent={notification.length} color="primary" style={{marginRight:"2rem"}} onClick={()=>{setToggleNotification(!toggleNotification)}}>
+
+          <div className="notification-div" ref={notifDropdown}>
+            <Badge badgeContent={notification.length} color="primary" onClick={()=>{setToggleNotification(!toggleNotification)}}>
                 <NotificationsIcon style={{fontSize:"1.8rem",color:"black"}}/>
             </Badge>
             { toggleNotification && 
@@ -131,9 +153,13 @@ const TopbarStyle = () => {
                     {item?.chat?.isGroupChat?`New message in ${item?.chat?.chatName}`:
                     `New message from ${item?.chat?.users[0]?._id ===user?._id ? item?.chat?.users[1].name : item?.chat?.users[0].name 
                     }`};
+
+                    
                   </div>
                 ))}
-              </div>}
+              </div>
+            }
+            </div>
           
           
             <AccountCircle style={{fontSize:"1.8rem",color:"black",marginRight:"2rem",cursor:"pointer"}} onClick={handleDropDown}/>
@@ -168,6 +194,8 @@ const TopbarStyle = () => {
                   <Typography id="transition-modal-title" variant="h6" component="h2">
                     {user?.name}
                   </Typography>
+                  <img src={user?.profilePic} alt="profile pic" />
+                  {user?.profilePic}
                   <Typography id="transition-modal-description" sx={{ mt: 2 }}>
                     {user?.email}
                   </Typography>

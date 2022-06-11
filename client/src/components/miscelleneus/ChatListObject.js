@@ -21,6 +21,8 @@ export default function ChatListObject(props) {
     await setSelectedChat(chatObject);
     console.log(selectedChat);
   }
+
+  const otherUser = chatObject.users[0]?._id ===user?._id ? chatObject.users[1] : chatObject.users[0] ;
   
 
   return (
@@ -38,12 +40,12 @@ export default function ChatListObject(props) {
           >
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+          <Avatar alt="Remy Sharp" src={chatObject.isGroupChat? "/static/images/avatar/1.jpg" : otherUser.profilePic} />
         </ListItemAvatar>
+        
         <ListItemText
           primary={!chatObject.isGroupChat?
-            chatObject.users[0]?._id ===user?._id ? chatObject.users[1].name : chatObject.users[0].name 
-            : chatObject.chatName
+            otherUser.name : chatObject.chatName
               }
 
           secondary={

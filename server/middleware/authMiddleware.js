@@ -3,6 +3,8 @@ const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
 
 
+// Gets the User after verifying the JWT Token
+
 const accessJwtToken = asyncHandler(async (req,res,next) => {
     let token;
 
@@ -20,7 +22,7 @@ const accessJwtToken = asyncHandler(async (req,res,next) => {
             next();
         } catch (error) {
             res.status(401);
-            throw new Error("Noe authorised, token failed");
+            throw new Error("Not authorised, token failed");
             
         }
     }
