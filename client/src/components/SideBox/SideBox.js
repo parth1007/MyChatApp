@@ -81,10 +81,10 @@ const SideBox = () => {
                                 fontSize:"1rem",
                                 width:"100%",
                                 border:"none",
-                                borderRadius:"1rem"
+                                borderRadius:"1rem",
                                 }}  >
                   Create A New Group Chat 
-                  <AddIcon style={{marginLeft:"1rem"}}/>
+                  <AddIcon style={{marginLeft:"0.9rem"}}/>
                 </Button>
               </GroupChatModal>
             </ChakraProvider>

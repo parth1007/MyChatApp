@@ -20,6 +20,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
 
 
 
@@ -121,12 +122,12 @@ const TopbarStyle = () => {
   return (
     <div className = "topbar">
       <div className = "topbar-left">
-        <div className="drawerbtn" onClick={ toggleSidedrawer}>
+        {/* <div className="drawerbtn" onClick={ toggleSidedrawer}>
           <MenuIcon style={{fontSize:"2.3rem",marginLeft:"1rem",color:"black"}}/>
-        </div>
+        </div> */}
         <div className="topsearch" onClick={ toggleSidedrawer}>
-          <SearchIcon style={{fontSize:"1.5rem",marginLeft:"1rem",color:"black"}}/>
-          <InputBase style={{backgroundColor:"#ffffff",color:"black",marginLeft:"0.5rem"}}
+          <SearchIcon className="search-icon" />
+          <InputBase className="search-field" style={{backgroundColor:"#ffffff",color:"black",marginLeft:"0.5rem",width:"75%"}}
             
             placeholder="Search..."
           />
@@ -161,8 +162,14 @@ const TopbarStyle = () => {
             }
             </div>
           
-          
-            <AccountCircle style={{fontSize:"1.8rem",color:"black",marginRight:"2rem",cursor:"pointer"}} onClick={handleDropDown}/>
+            <Avatar 
+              alt="Remy Sharp" 
+              src={user?.profilePic} 
+              onClick={handleDropDown}
+              style={{fontSize:"1.8rem",color:"black",marginRight:"2rem",cursor:"pointer"}}
+              />
+
+            {/* <AccountCircle style={{fontSize:"1.8rem",color:"black",marginRight:"2rem",cursor:"pointer"}} onClick={handleDropDown}/> */}
             {toggleProfileDropdown && <div className="profile-dropdown" ref={dropDownRef}>
               
               <div className="pdrop-item" onClick={handleOpenModal}>My Profile</div>
@@ -186,10 +193,11 @@ const TopbarStyle = () => {
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: 400,
+                    width: 350,
                     bgcolor: 'background.paper',
-                    boxShadow: 24,
+                    // boxShadow: 24,
                     p: 4,
+                    border: 0,
                   }}>
                   <Typography id="transition-modal-title" variant="h6" component="h2">
                     {user?.name}
