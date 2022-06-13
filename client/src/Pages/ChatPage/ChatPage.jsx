@@ -1,14 +1,14 @@
 import React from 'react'
-// import {useEffect} from 'react';
+import './ChatPage.css'
+
+
+// Import Components
 import Topbar from '../../components/Topbar/Topbar';
 import SideBox from '../../components/SideBox/SideBox';
 import ChatBox from '../../components/ChatBox/ChatBox';
 import SideDrawer from '../../components/SideDrawer/SideDrawer';
-import './ChatPage.css'
-import {ChatState} from '../../Context/ChatProvider';
 
-// TODO: Improve Drawer and profile DropDown
-
+// Import Context API
 
 const ChatPage = () => {
 

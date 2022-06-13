@@ -12,6 +12,7 @@ import {ChatState} from '../../Context/ChatProvider';
 import ChatLoading from '../miscelleneus/ChatLoading';
 import GroupChatModal from '../miscelleneus/GroupChatModal';
 import './SideBox.css'
+import useMediaQuery from "../miscelleneus/useMediaQuery";
 
 
 // Material ui imports
@@ -26,6 +27,9 @@ const SideBox = () => {
   const {user,toggleDrawer,setToggleDrawer,selectedChat, setSelectedChat,chats, setChats,fetchAgain}  = ChatState();
 
   const userInfo =  JSON.parse(localStorage.getItem("userInfo"));
+  const matches900 = useMediaQuery("(max-width: 900px)");
+  const matches650 = useMediaQuery("(max-width: 650px)");
+
 
 
 
@@ -69,52 +73,63 @@ const SideBox = () => {
   
 
   return (
-    <div className="sidebox">
-          <div className="sidebox-header">
+    <>
 
-            <ChakraProvider>
-              <GroupChatModal>
-                <Button variant="outlined" 
-                        onClick={tempChatsFetching} 
-                        style={{backgroundColor: "#ffffff",
-                                padding: "0.6rem 1.3rem",
-                                fontSize:"1rem",
-                                width:"100%",
-                                border:"none",
-                                borderRadius:"1rem",
-                                }}  >
-                  Create A New Group Chat 
-                  <AddIcon style={{marginLeft:"0.9rem"}}/>
-                </Button>
-              </GroupChatModal>
-            </ChakraProvider>
-          </div>
+    {matches650 && selectedChat ?
+      <></>:
 
-            {chats? (
-              <div className="open-chatlist">
-                {chats.map((chat) =>(
-                  <>
-                      <ChatListObject 
-                          key={chat._id} 
-                          chatObject={chat} 
-                          loggedUser = {user}
-                          backgroundColor={selectedChat === chat ? "#3F8DFF" : "#ffffff"}
-                      />
-                      <hr style={{width:"82%",marginLeft:"15%"}}/>
+        <div className="sidebox" 
+              style={matches650 ? {width: "80%",marginLeft: "10%"}:{}}
+              >
+              
+              <div className="sidebox-header">
 
-                  </>
-
-
-                    
-                  ))}
+                <ChakraProvider>
+                  <GroupChatModal>
+                    <Button variant="outlined" 
+                            onClick={tempChatsFetching} 
+                            style={{
+                                    backgroundColor: "#ffffff",
+                                    height:"90%",
+                                    padding: "0.6rem 1.3rem",
+                                    fontSize:matches900 ? matches650 ? "1.1rem": '2vw' :"1.1vw",
+                                    width:"100%",
+                                    border:"none",
+                                    borderRadius:"1rem",
+                                    }}  >
+                      Create A New Group 
+                      <AddIcon style={{marginLeft:"0.9rem",height:"90%"}}/>
+                    </Button>
+                  </GroupChatModal>
+                </ChakraProvider>
               </div>
-            ) :(
-              <ChatLoading/>
-            )}
+
+                {chats? (
+                  <div className="open-chatlist">
+                    {chats.map((chat) =>(
+                      <>
+                          <ChatListObject 
+                              key={chat._id} 
+                              chatObject={chat} 
+                              loggedUser = {user}
+                              backgroundColor={selectedChat === chat ? "#3F8DFF" : "#ffffff"}
+                          />
+                          <hr style={{width:"82%",marginLeft:"15%"}}/>
+
+                      </>
+
+                      ))}
+                  </div>
+                ) :(
+                  <ChatLoading/>
+                )}
 
 
-      
-    </div>
+          
+        </div>
+
+    }
+    </>
   )
 }
 

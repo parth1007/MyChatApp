@@ -47,3 +47,27 @@
     /* Safari and Chrome */
     display: none;  
 } 
+
+@media screen and (max-width: 1200px) {
+    .side-drawer{
+        width: 40%;
+    }
+  }
+
+@media screen and (max-width: 900px) {
+    .side-drawer{
+        width: 50%;
+    }
+  }
+
+  @media screen and (max-width: 650px) {
+    .side-drawer{
+        width: 70%;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .side-drawer{
+        width: 85%;
+    }
+  }

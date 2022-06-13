@@ -33,7 +33,7 @@ const sendMessage = asyncHandler(async (req,res) => {
         });
 
         await Chat.findByIdAndUpdate(req.body.chatId,{
-            latestMessege:message
+            latestMessage:message
         })
         res.json(message)
 

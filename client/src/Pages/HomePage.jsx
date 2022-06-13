@@ -6,11 +6,11 @@ const HomePage = () => {
 
   const navigate = useNavigate();
 
+  // Redirect to login page
   useEffect(() => {
     navigate("/login");
   }, [])
   
-
   return (
     <h1>HomePage</h1>
   )
