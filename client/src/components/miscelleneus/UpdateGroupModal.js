@@ -1,4 +1,3 @@
-import { ViewIcon } from "@chakra-ui/icons";
 import {
   Modal,
   ModalOverlay,
@@ -13,9 +12,9 @@ import {
   Input,
   useToast,
   Box,
-  IconButton,
   Spinner,
 } from "@chakra-ui/react";
+
 import axios from "axios";
 import { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
@@ -24,15 +23,21 @@ import UserListItem1 from "./UserListItem1";
 
 const UpdateGroupChatModal = ({fetchMessages, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // UseState declaration
   const [groupChatName, setGroupChatName] = useState();
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [renameloading, setRenameLoading] = useState(false);
+
+
   const toast = useToast();
 
+  // ContextApi declaration
   const { selectedChat, setSelectedChat, user, fetchAgain, setFetchAgain } = ChatState();
 
+  // Search user from the database
   const handleSearch = async (query) => {
     setSearch(query);
     if (!query) {
@@ -62,6 +67,7 @@ const UpdateGroupChatModal = ({fetchMessages, children }) => {
       setLoading(false);
     }
   };
+
 
   const handleRename = async () => {
     if (!groupChatName) return;
@@ -204,9 +210,10 @@ const UpdateGroupChatModal = ({fetchMessages, children }) => {
     setGroupChatName("");
   };
 
+
+
   return (
     <>
-      {/* <IconButton d={{ base: "flex" }} icon={<ViewIcon />} onClick={onOpen} /> */}
       <span onClick={onOpen}>{children}</span>
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>

@@ -1,25 +1,28 @@
 import * as React from 'react';
-import {useState} from 'react'
+import {ChatState} from '../../Context/ChatProvider';
+import useMediaQuery from "./useMediaQuery";
+
+// MUI Imports
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import {ChatState} from '../../Context/ChatProvider';
 
-import useMediaQuery from "./useMediaQuery";
 
 
 export default function ChatListObject(props) {
 
+  // For website responsive - media queries
   const matchesmax900 = useMediaQuery("(max-width: 900px)");
   const matchesmax650 = useMediaQuery("(max-width: 650px)");
-  const matchesmax600 = useMediaQuery("(max-width: 600px)");
+  // const matchesmax600 = useMediaQuery("(max-width: 600px)");
 
-  const {user,selectedChat, setSelectedChat,chats, setChats}  = ChatState();
 
-  const {chatObject,loggedUser,backgroundColor} = props;
+  const {user,selectedChat, setSelectedChat}  = ChatState();
+
+  const {chatObject,backgroundColor} = props;
 
   const activateChat = async () => {
     await setSelectedChat(chatObject);
@@ -52,26 +55,32 @@ export default function ChatListObject(props) {
         </ListItemAvatar>
         
         <ListItemText
-          primary={!chatObject.isGroupChat?
-            otherUser.name : chatObject.chatName
-              }
+          primary={
+            <Typography sx={{ display: 'inline',fontSize:"1rem" }} component="span" variant="body2" color="#000000">
+                {!chatObject.isGroupChat?
+                  otherUser.name : chatObject.chatName
+                }
+            </Typography>
+          }
 
           secondary={
             <React.Fragment>
               <Typography
-                sx={{ display: 'inline',fontSize:"0.8rem" }}
+                sx={{ display: 'inline' }}
                 component="span"
                 variant="body2"
                 color="text.primary"
               >
-                  {chatObject?.latestMessage && (
-                  <pre fontSize="xs">
-                    {chatObject.latestMessage.sender.name} : 
-                    {chatObject.latestMessage.content.length > 50
-                      ? chatObject.latestMessage.content.substring(0, 51) + "..."
-                      : chatObject.latestMessage.content}
-                  </pre>
-                )}
+                {chatObject?.latestMessage && 
+                  (
+                    <p style = {{fontSize:"0.8rem",color:"#424242"}}>
+                      {chatObject.latestMessage.sender.name === user?.name ? "You" : chatObject.latestMessage.sender.name} : 
+                      {chatObject.latestMessage.content.length > 50
+                        ? " " + chatObject.latestMessage.content.substring(0, 51) + "..."
+                        : " " + chatObject.latestMessage.content}
+                    </p>
+                  )
+                } 
               </Typography>
 
             </React.Fragment>

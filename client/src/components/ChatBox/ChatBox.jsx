@@ -1,25 +1,36 @@
 import React from 'react';
+import {useState,useEffect} from 'react';
 import axios from 'axios'
 import './ChatBox.css';
-import EditIcon from '@mui/icons-material/Edit';
-import {ChatState} from '../../Context/ChatProvider';
-import CircularProgress from '@mui/material/CircularProgress';
-import UpdateGroupModal from '../miscelleneus/UpdateGroupModal';
-import ScrollableChat from '../miscelleneus/ScrollableChat';
-import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import { ChakraProvider } from "@chakra-ui/react";
-import InfoIcon from '@mui/icons-material/Info';
-import {useState,useEffect} from 'react';
-import { FormControl,Input } from '@mui/material';
 import io from "socket.io-client"
 import Lottie from "react-lottie"
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import useMediaQuery from "../miscelleneus/useMediaQuery";
+import {ChatState} from '../../Context/ChatProvider';
 
-const ENDPOINT = "http://localhost:8000";
+// Material ui imports
+import { FormControl,Input } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import InfoIcon from '@mui/icons-material/Info';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CircularProgress from '@mui/material/CircularProgress';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
+
+// Chakra UI imports
+import { ChakraProvider } from "@chakra-ui/react";
+
+
+// Import components
+import useMediaQuery from "../miscelleneus/useMediaQuery";
+import ScrollableChat from '../miscelleneus/ScrollableChat';
+import UpdateGroupModal from '../miscelleneus/UpdateGroupModal';
+
+
+// Socket IO 
+const ENDPOINT = "https://ryuzaki-chatapp.herokuapp.com/";
 var socket,selectedChatCompare;
 
 const ChatBox = () => {
+
+  // UseState Declarations
 
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -27,22 +38,23 @@ const ChatBox = () => {
   const [socketConnected, setSocketConnected] = useState(false)
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+
+  // ContextAPI hook
   const {user,fetchAgain,setFetchAgain,selectedChat,setSelectedChat,notification, setNotification}  = ChatState();
 
-
+  // For website responsive - media queries
   const matches650 = useMediaQuery("(max-width: 650px)");
 
-
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: require("../animations/chat-typing.json"),
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice"
+  // Typing animation
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: require("../animations/chat-typing.json"),
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
   }
-}
-
-
+  // fetchMessages of selected chat
   const fetchMessages = async () => {
     if(!selectedChat) return;
 
@@ -70,25 +82,25 @@ const defaultOptions = {
 
 
   useEffect(() => {
+    fetchMessages();
+    // to keep backup of selected chat
+    selectedChatCompare = selectedChat;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedChat])
+  
+
+  // Socket IO logic
+
+
+  useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup",user);
     socket.on("connected",()=> setSocketConnected(true) )
     socket.on("typing",()=> setIsTyping(true))
     socket.on("stop typing",()=> setIsTyping(false))
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]) 
-
-
-  useEffect(() => {
-    fetchMessages();
-
-    // to keep backup of selected chat
-    selectedChatCompare = selectedChat;
-
-  }, [selectedChat])
-  
-
-  
 
   useEffect(() => {
     socket.on("message recieved",(newMessageRecieved)=>{
@@ -104,6 +116,7 @@ const defaultOptions = {
           setMessages([...messages,newMessageRecieved]);
         }
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   })
   
 
@@ -115,7 +128,6 @@ const defaultOptions = {
         alert("Please select a valid message");
         return;
       }
-    
       try {
         const config = {
           headers: {
@@ -151,8 +163,6 @@ const defaultOptions = {
   
   const typingHandler = async (event) => {
     setNewMessage(event.target.value);
-
-    // typing indicates logically
 
     if(!socketConnected) return;
 

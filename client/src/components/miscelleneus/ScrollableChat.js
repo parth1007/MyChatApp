@@ -4,6 +4,11 @@ import Avatar from '@mui/material/Avatar';
 import { ChatState } from "../../Context/ChatProvider";
 
 import ScrollableFeed from "react-scrollable-feed";
+
+
+
+// Logic used for structuring the ChatState
+
 const isSameSender = (messages,msg,index,userId) =>{
      return (
          index < messages.length - 1 &&
@@ -22,7 +27,6 @@ const isLastMessage = (messages,index,userId) =>{
 }
 
 const isSameSenderMargin = (messages, msg, index, userId) => {
-    // console.log(i === messages.length - 1);
   
     if (
       index < messages.length - 1 &&
@@ -47,11 +51,9 @@ const isSameUser = (messages, m, i) => {
 
 
 
-
 const ScrollableChat = ({messages}) => {
 
-
-    const { user } = ChatState();
+  const { user } = ChatState();
 
   return (
 
@@ -94,7 +96,6 @@ const ScrollableChat = ({messages}) => {
 
              )
             )}
-
         </ScrollableFeed>
 
   )

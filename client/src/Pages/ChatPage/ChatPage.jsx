@@ -8,7 +8,9 @@ import SideBox from '../../components/SideBox/SideBox';
 import ChatBox from '../../components/ChatBox/ChatBox';
 import SideDrawer from '../../components/SideDrawer/SideDrawer';
 
-// Import Context API
+// Import Context api
+import {ChatState} from '../../Context/ChatProvider';
+
 
 const ChatPage = () => {
 
@@ -16,14 +18,16 @@ const ChatPage = () => {
 
 
   return (
-    <div style={{display:"flex",flexDirection:"column",width:"100%",backgroundColor:"#D8DBE3",position: "relative"}}>
+    <div className="chat-page">
         {user && <Topbar/>}
         {user && (toggleDrawer && <SideDrawer/>)}
+
+        {/* display overlay if side drawer is active */}
         {toggleDrawer && <div className="overlay"></div>}
-          <div className="chat_container" style={{display:"flex",flexDirection:"row",width:"100%",height:"92vh"}}>
+          <div className="chat_container">
             
-            {user && <SideBox/>}
-            {user && <ChatBox/>}
+              {user && <SideBox/>}
+              {user && <ChatBox/>}
           
         </div>
     </div>
@@ -31,6 +35,3 @@ const ChatPage = () => {
 }
 
 export default ChatPage
-
-
-// https://dribbble.com/shots/16507884-Chatbot

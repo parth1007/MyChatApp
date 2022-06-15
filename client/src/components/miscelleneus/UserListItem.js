@@ -13,7 +13,7 @@ const UserListItem = ({resUser,handleChatClick}) => {
     >
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <Avatar alt="Remy Sharp" src={resUser?.profilePic} />
       </ListItemAvatar>
       <ListItemText
         primary={resUser?.name}

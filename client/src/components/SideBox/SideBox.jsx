@@ -1,9 +1,7 @@
-// React Imports
-
 import React from 'react'
 import {useState,useEffect} from 'react';
 import axios from "axios";
-
+import './SideBox.css'
 
 // Import Components
 
@@ -11,33 +9,37 @@ import ChatListObject from '../miscelleneus/ChatListObject';
 import {ChatState} from '../../Context/ChatProvider';
 import ChatLoading from '../miscelleneus/ChatLoading';
 import GroupChatModal from '../miscelleneus/GroupChatModal';
-import './SideBox.css'
 import useMediaQuery from "../miscelleneus/useMediaQuery";
 
 
-// Material ui imports
+// Material UI imports
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@material-ui/core/Button';
-import Divider from '@mui/material/Divider';
+
+// Chakra UI import
 import { ChakraProvider } from "@chakra-ui/react";
+
 
 const SideBox = () => {
 
+  // UseState Declarations
+  // eslint-disable-next-line no-unused-vars
   const [loggedUser, setLoggedUser] = useState();
-  const {user,toggleDrawer,setToggleDrawer,selectedChat, setSelectedChat,chats, setChats,fetchAgain}  = ChatState();
 
-  const userInfo =  JSON.parse(localStorage.getItem("userInfo"));
+  // ContextAPI hook
+  const {user,selectedChat,chats, setChats,fetchAgain}  = ChatState();
+
+  // const userInfo =  JSON.parse(localStorage.getItem("userInfo"));
+
+  // For website responsive - media queries
   const matches900 = useMediaQuery("(max-width: 900px)");
   const matches650 = useMediaQuery("(max-width: 650px)");
 
 
-
-
+  // Fetch chats for the currently logged in user
   const fetchChats = async () => {
-    
     try {
       console.log("In Side box")
-      // console.log(loggedUser)
       const config = {
         headers: {
           Authorization: `Bearer ${user?.token}`,
@@ -54,10 +56,12 @@ const SideBox = () => {
     }
   }
 
+
+
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetchAgain])
 
 
@@ -80,8 +84,7 @@ const SideBox = () => {
 
         <div className="sidebox" 
               style={matches650 ? {width: "80%",marginLeft: "10%"}:{}}
-              >
-              
+            >
               <div className="sidebox-header">
 
                 <ChakraProvider>
@@ -104,33 +107,32 @@ const SideBox = () => {
                 </ChakraProvider>
               </div>
 
-                {chats? (
-                  <div className="open-chatlist">
-                    {chats.map((chat) =>(
-                      <>
-                          <ChatListObject 
-                              key={chat._id} 
-                              chatObject={chat} 
-                              loggedUser = {user}
-                              backgroundColor={selectedChat === chat ? "#3F8DFF" : "#ffffff"}
-                          />
-                          <hr style={{width:"82%",marginLeft:"15%"}}/>
+                {chats? 
+                  (
+                    <div className="open-chatlist">
+                      {chats.map((chat) =>(
+                        <>
+                            <ChatListObject 
+                                key={chat._id} 
+                                chatObject={chat} 
+                                loggedUser = {user}
+                                backgroundColor={selectedChat === chat ? "#5997f2" : "#ffffff"}
+                            />
+                            <hr style={{width:"82%",marginLeft:"15%"}}/>
+                        </>
+                        ))}
+                    </div>
+                  ) 
+                  :
+                  (
+                    <ChatLoading/>
+                  )
+                }
 
-                      </>
-
-                      ))}
-                  </div>
-                ) :(
-                  <ChatLoading/>
-                )}
-
-
-          
         </div>
-
     }
     </>
   )
 }
 
-export default SideBox
+export default SideBox;

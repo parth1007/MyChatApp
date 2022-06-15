@@ -1,25 +1,29 @@
 import React from 'react';
-
-import "./register.css";
-import {Link} from 'react-router-dom';
 import axios from "axios";
 import { useRef,useState } from "react";
-import { useNavigate } from "react-router";
-import FileBase64 from 'react-file-base64';
-
+import {Link,useNavigate} from 'react-router-dom';
+import "./register.css";
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Register() {
 
-  // const [showPass,setShowPass] = useState(false);
+  // useStates declaration
   const [name,setName] = useState("");
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [confirmPassword,setConfirmPassword] = useState("");
   const [profilePic, setProfilePic] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [picLoading, setPicLoading] = useState(false)
+
+
+
   const navigate = useNavigate();
   const passwordref = useRef();
 
+
+
+  // function to add image to cloudinary
   const postPic = (pics) => {
     setPicLoading(true);
     if(pics === undefined){
@@ -27,7 +31,7 @@ export default function Register() {
       return;
     }
 
-    if(pics.type === "image/jpeg" || pics.type === "image/png" || pics.type === "image/svg"){
+    if(pics.type === "image/jpeg" || pics.type === "image/png" || pics.type === "image/svg" || pics.type === "image/jpg"){
       const data = new FormData();
       data.append("file",pics);
       data.append("upload_preset","chat-app");
@@ -46,22 +50,17 @@ export default function Register() {
           setPicLoading(false);
         })
     }
-    else{
-      alert("Please upload an image");
-    }
-
-
 
   }
 
+
+  // function to register user
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(password !== confirmPassword){
       passwordref.current.setCustomValidity("Passwords don't match");
     }
     else{
-      console.log(name, email, password, profilePic);
-
       try {
 
         const config = {
@@ -82,6 +81,7 @@ export default function Register() {
         localStorage.setItem("userInfo", JSON.stringify(data));
         navigate("/chats");
       } catch (error) {
+        alert("User already exist, please go to login page");
         console.log(error);
       }
 
@@ -109,18 +109,9 @@ export default function Register() {
             />
             <input placeholder="Password Again" required  className="loginInput" type="password" style={{height: '55px'}} onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            {/* <input class="form-control loginInput" type="file"  id="formFile" */}
-            {/* /> */}
-            {/* <FileBase64
-              type="file"
-              multiple={false}
-              onDone={({ base64 }) => setProfilePic( base64 )}
-            /> */}
             <input type="file" style={{height: '2rem',padding:"1rem",fontSize:"1rem"}} onChange={(e) => postPic(e.target.files[0])}
             />
-
-
-            <button className="loginButton">Sign Up</button>
+            <button className="loginButton">{picLoading ? <CircularProgress style={{color:"white",height: '2rem',width: '2rem'}}/> :"Sign Up"}</button>
             
             
             <Link to='/login'>

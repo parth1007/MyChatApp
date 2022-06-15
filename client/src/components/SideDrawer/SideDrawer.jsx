@@ -1,24 +1,19 @@
-// React Imports
-
 import React from 'react'
 import {useState,useEffect,useRef} from 'react';
 import axios from "axios";
+import './SideDrawer.css'
 
 // Import Components
 
 import {ChatState} from '../../Context/ChatProvider';
 import UserListItem from '../miscelleneus/UserListItem';
 import ChatLoading from '../miscelleneus/ChatLoading';
-// import ChatListObject from '../miscelleneus/ChatListObject';
 
 
 // Material ui imports
 import InputBase from '@mui/material/InputBase';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@material-ui/core/Button';
-// import Divider from '@mui/material/Divider';
-import './SideDrawer.css'
-
 
 
 
@@ -33,9 +28,9 @@ const SideDrawer = () => {
 
 
   // ContextAPI hook
-  const {user,
+  const {
       toggleDrawer,setToggleDrawer,
-      selectedChat, setSelectedChat,
+      setSelectedChat,
       chats, setChats} 
     = ChatState();
 
@@ -68,6 +63,7 @@ const SideDrawer = () => {
     }
   }
 
+  //  Fetching searched users from while typing in search box
   const handleSearch =  async (e) => {
 
     try {
@@ -97,6 +93,7 @@ const SideDrawer = () => {
     try {
 
       setChatLoading(true);
+      console.log(chatLoading);
       const config = {
         headers: {
           "Content-type": "application/json",
@@ -177,25 +174,23 @@ const SideDrawer = () => {
           <Button variant="outlined" onClick={handleSearchSubmit} style={{marginRight:"1rem",height:"2.5rem",borderRadius:"0.5rem"}}>Go</Button>
         </div>
 
-        {loading ? (
-          <ChatLoading />
-          
-        ):(
-      
-          <div className="chatlist">
-            {
-            searchResult?.map((resUser) => (
-              // <ChatListObject userName={listItem.name} senderName="Email" msg={listItem.email}/>
-              <>
-              <UserListItem key={resUser._id}
-                resUser={resUser}
-                handleChatClick={() => {accessChat(resUser._id)}}/>
-                <hr style={{width:"82%",marginLeft:"15%"}}/>
-              </>
-            ))}
-
-        </div>
-        )
+        { loading ? 
+          (
+            <ChatLoading />
+          ) :
+          (
+            <div className="chatlist">
+              {
+              searchResult?.map((resUser) => (
+                <>
+                  <UserListItem key={resUser._id}
+                    resUser={resUser}
+                    handleChatClick={() => {accessChat(resUser._id)}}/>
+                  <hr style={{width:"82%",marginLeft:"15%"}}/>
+                </>
+              ))}
+            </div>
+          )
         }
       </div>
     </div>

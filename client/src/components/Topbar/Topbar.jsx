@@ -1,5 +1,3 @@
-// React Imports
-
 import React from 'react';
 import {useState,useEffect,useRef} from 'react';
 import {useNavigate} from 'react-router';
@@ -9,10 +7,8 @@ import './Topbar.css';
 
 // Material ui imports
 
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@material-ui/core/Badge';
 import Backdrop from '@mui/material/Backdrop';
@@ -24,14 +20,11 @@ import Avatar from '@mui/material/Avatar';
 
 
 
-
-
 const TopbarStyle = () => {
 
     // UseState Declarations
     
     const [toggleProfileDropdown,setToggleProfileDropdown]  = useState(false);
-    // const [profileDropDown, setProfileDropDown] = useState(null);
     const [openModal, setOpenModal] = React.useState(false);
     const [toggleNotification, setToggleNotification] = useState(false);
 
@@ -39,13 +32,7 @@ const TopbarStyle = () => {
     // ContextAPI hook
     const {user,toggleDrawer,setToggleDrawer,setSelectedChat,notification, setNotification}  = ChatState();
     
-    // const open = Boolean(profileDropDown);
     const navigate = useNavigate();
-
-
-    // useEffect Declaration
-
-
 
 
     // For auto closing of profile dropdown on clicking outside the box
@@ -54,10 +41,7 @@ const TopbarStyle = () => {
     useEffect(() => {
         if(toggleProfileDropdown === true) {
             let handler = (event) => {
-              console.log("Hello");
-              console.log(event.target);
-              console.log(dropDownRef.current);
-              console.log(user?.profilePic)
+
               if(!dropDownRef.current.contains(event.target)){
                 setToggleProfileDropdown(false);
               }
@@ -72,7 +56,7 @@ const TopbarStyle = () => {
     })
 
 
-    // Function Declarations
+  // Function Declarations
 
   const toggleSidedrawer = () => {
     setToggleDrawer(!toggleDrawer);
@@ -127,9 +111,9 @@ const TopbarStyle = () => {
         </div> */}
         <div className="topsearch" onClick={ toggleSidedrawer}>
           <SearchIcon className="search-icon" />
-          <InputBase className="search-field" style={{backgroundColor:"#ffffff",color:"black",marginLeft:"0.5rem",width:"75%"}}
-            
-            placeholder="Search..."
+          <InputBase className="search-field" 
+              style={{backgroundColor:"#ffffff",color:"black",marginLeft:"0.5rem",width:"75%"}}
+              placeholder="Search..."
           />
         </div>
       </div>
@@ -138,8 +122,11 @@ const TopbarStyle = () => {
 
           <div className="notification-div" ref={notifDropdown}>
             <Badge badgeContent={notification.length} color="primary" onClick={()=>{setToggleNotification(!toggleNotification)}}>
-                <NotificationsIcon style={{fontSize:"1.8rem",color:"black"}}/>
+                <NotificationsIcon style={{fontSize:"1.8rem",color:"#353535"}}/>
             </Badge>
+
+            {/********  Logic To display notifications dropdown *******/}
+            
             { toggleNotification && 
               <div className="notification-list">
                 {!notification?.length && "No new messages"}
@@ -148,14 +135,12 @@ const TopbarStyle = () => {
                     setSelectedChat(item.chat);
                     setNotification(notification.filter((n) => n !== item));
                     setToggleNotification(!toggleNotification)
-                  }
-                      
-                      }>
+                  }}>
+
                     {item?.chat?.isGroupChat?`New message in ${item?.chat?.chatName}`:
                     `New message from ${item?.chat?.users[0]?._id ===user?._id ? item?.chat?.users[1].name : item?.chat?.users[0].name 
                     }`};
 
-                    
                   </div>
                 ))}
               </div>
@@ -169,12 +154,13 @@ const TopbarStyle = () => {
               style={{fontSize:"1.8rem",color:"black",marginRight:"2rem",cursor:"pointer"}}
               />
 
-            {/* <AccountCircle style={{fontSize:"1.8rem",color:"black",marginRight:"2rem",cursor:"pointer"}} onClick={handleDropDown}/> */}
             {toggleProfileDropdown && <div className="profile-dropdown" ref={dropDownRef}>
               
               <div className="pdrop-item" onClick={handleOpenModal}>My Profile</div>
               <div className="pdrop-item" onClick={handleLogout}>Logout</div>
             </div>}
+
+            {/******** Code for Profile Modal ********/}
 
             <Modal
               aria-labelledby="transition-modal-title"
@@ -203,7 +189,7 @@ const TopbarStyle = () => {
                     {user?.name}
                   </Typography>
                   <img src={user?.profilePic} alt="profile pic" />
-                  {user?.profilePic}
+                  {/* {user?.profilePic} */}
                   <Typography id="transition-modal-description" sx={{ mt: 2 }}>
                     {user?.email}
                   </Typography>

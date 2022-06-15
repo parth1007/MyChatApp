@@ -20,16 +20,23 @@ import {
   import UserListItem1 from "./UserListItem1";
   
   const GroupChatModal = ({ children }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    
+
+    // UseState Declarations
     const [groupChatName, setGroupChatName] = useState();
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [search, setSearch] = useState("");
     const [searchResult, setSearchResult] = useState([]);
     const [loading, setLoading] = useState(false);
+    
+    // ContextAPI hook
+    const { user, chats, setChats } = ChatState();
+
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
   
-    const { user, chats, setChats } = ChatState();
-  
+    //  Function to add user to the selected users list
     const handleGroup = (userToAdd) => {
       if (selectedUsers.includes(userToAdd)) {
         toast({
@@ -44,13 +51,14 @@ import {
   
       setSelectedUsers([...selectedUsers, userToAdd]);
     };
-  
+
+
+    // Search user from the database
     const handleSearch = async (query) => {
       setSearch(query);
       if (!query) {
         return;
       }
-  
       try {
         setLoading(true);
         const config = {
@@ -73,11 +81,13 @@ import {
         });
       }
     };
-  
+
+    // Function to delete user from selected users list
     const handleDelete = (delUser) => {
       setSelectedUsers(selectedUsers.filter((sel) => sel._id !== delUser._id));
     };
   
+    // Function to create group chat
     const handleSubmit = async () => {
       if (!groupChatName || !selectedUsers) {
         toast({
@@ -135,6 +145,8 @@ import {
       }
     };
   
+
+
     return (
       <>
         <span onClick={onOpen}>{children}</span>
@@ -176,7 +188,6 @@ import {
                 ))}
               </Box>
               {loading ? (
-                // <ChatLoading />
                 <div>Loading...</div>
               ) : (
                 searchResult
