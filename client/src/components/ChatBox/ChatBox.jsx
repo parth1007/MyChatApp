@@ -25,7 +25,7 @@ import UpdateGroupModal from '../miscelleneus/UpdateGroupModal';
 
 
 // Socket IO 
-const ENDPOINT = "https://ryuzaki-chatapp.herokuapp.com/";
+const ENDPOINT = "https://ryuzaki-chatapp.herokuapp.com";
 var socket,selectedChatCompare;
 
 const ChatBox = () => {
