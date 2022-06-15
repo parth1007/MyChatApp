@@ -39,11 +39,8 @@ app.use("/api/message", messageRoutes);
 
   if (process.env.NODE_ENV === "production") {
   
-    app.use(express.static( 'client/build' ));
-
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html')); // relative path
-    });
+    const __dirname1 = path.resolve();
+    app.use("/", express.static(path.join(__dirname1, "./client/build")));
     
   } else {
     app.get("/", (req, res) => {
