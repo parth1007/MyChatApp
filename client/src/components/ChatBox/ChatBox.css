@@ -111,3 +111,8 @@
         margin-right:0.8rem;
     }
   }
+
+
+  @media screen and (max-width: 650px) {
+    .typing-animation{bottom: 17%;}
+  }

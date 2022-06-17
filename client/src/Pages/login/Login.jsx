@@ -4,7 +4,7 @@ import { useState,useEffect } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import "./login.css";
 
-
+const HOST = "https://ryuzaki-chatapp.herokuapp.com";
 
 
 export default function Login() {

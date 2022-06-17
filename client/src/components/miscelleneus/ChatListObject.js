@@ -26,8 +26,6 @@ export default function ChatListObject(props) {
 
   const activateChat = async () => {
     await setSelectedChat(chatObject);
-    console.log(selectedChat);
-    console.log(selectedChat?.latestMessage.content);
   }
 
   const otherUser = chatObject.users[0]?._id ===user?._id ? chatObject.users[1] : chatObject.users[0] ;

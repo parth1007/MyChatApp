@@ -68,7 +68,10 @@ const ChatBox = () => {
       };
 
       setLoading(true);
-      const res = await axios.get(`${HOST}/${selectedChat._id}`, config);
+      console.log("here");
+      const res = await axios.get(`${HOST}/api/message/${selectedChat._id}`, config);
+      console.log("here");
+
       console.log(messages);
       setMessages(res.data);
       setLoading(false);

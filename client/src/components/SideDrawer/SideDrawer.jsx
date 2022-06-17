@@ -15,6 +15,7 @@ import InputBase from '@mui/material/InputBase';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@material-ui/core/Button';
 
+const HOST = "https://ryuzaki-chatapp.herokuapp.com";
 
 
 const SideDrawer = () => {

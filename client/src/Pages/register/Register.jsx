@@ -5,6 +5,10 @@ import {Link,useNavigate} from 'react-router-dom';
 import "./register.css";
 import CircularProgress from '@mui/material/CircularProgress';
 
+
+const HOST = "https://ryuzaki-chatapp.herokuapp.com";
+
+
 export default function Register() {
 
   // useStates declaration

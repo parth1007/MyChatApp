@@ -1,6 +1,7 @@
 import React from 'react'
 import './ChatPage.css'
-
+import {useEffect} from 'react';
+import { useNavigate } from "react-router-dom";
 
 // Import Components
 import Topbar from '../../components/Topbar/Topbar';
@@ -15,6 +16,15 @@ import {ChatState} from '../../Context/ChatProvider';
 const ChatPage = () => {
 
     const {user,toggleDrawer}  = ChatState();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      if (localStorage.getItem("userInfo") === null) {
+        navigate("/login");
+      }
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]) 
 
 
   return (

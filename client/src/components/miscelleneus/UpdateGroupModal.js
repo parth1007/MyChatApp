@@ -141,7 +141,7 @@ const UpdateGroupChatModal = ({fetchMessages, children }) => {
         },
       };
       const { data } = await axios.put(
-        `${Host}/api/chat/groupadd`,
+        `${HOST}/api/chat/groupadd`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
