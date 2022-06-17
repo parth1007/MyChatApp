@@ -76,7 +76,7 @@ export default function Register() {
         }
 
 
-        const {data} = await axios.post("http://localhost:8000/api/user/register",user,config);
+        const {data} = await axios.post(`${HOST}/api/user/register`,user,config);
         console.log(data);
         localStorage.setItem("userInfo", JSON.stringify(data));
         navigate("/chats");

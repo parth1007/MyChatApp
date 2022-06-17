@@ -46,7 +46,7 @@ export default function Login() {
         }
 
 
-        const {data} = await axios.post("http://localhost:8000/api/user/login",user,config);
+        const {data} = await axios.post(`${HOST}/api/user/login`,user,config);
 
 
         console.log(data);

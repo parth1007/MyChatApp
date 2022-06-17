@@ -28,6 +28,8 @@ import UpdateGroupModal from '../miscelleneus/UpdateGroupModal';
 const ENDPOINT = "https://ryuzaki-chatapp.herokuapp.com";
 var socket,selectedChatCompare;
 
+const HOST = "https://ryuzaki-chatapp.herokuapp.com";
+
 const ChatBox = () => {
 
   // UseState Declarations
@@ -66,7 +68,7 @@ const ChatBox = () => {
       };
 
       setLoading(true);
-      const res = await axios.get(`http://localhost:8000/api/message/${selectedChat._id}`, config);
+      const res = await axios.get(`${HOST}/${selectedChat._id}`, config);
       console.log(messages);
       setMessages(res.data);
       setLoading(false);
@@ -138,7 +140,7 @@ const ChatBox = () => {
 
         setNewMessage("");
 
-        const res = await axios.post("http://localhost:8000/api/message",
+        const res = await axios.post(`${HOST}/api/message`,
           {
             content:newMessage,
             chatId:selectedChat?._id,

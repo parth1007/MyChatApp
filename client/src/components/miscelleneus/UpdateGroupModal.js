@@ -21,6 +21,9 @@ import { ChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "./UserBadgeItem";
 import UserListItem1 from "./UserListItem1";
 
+const HOST = "https://ryuzaki-chatapp.herokuapp.com";
+
+
 const UpdateGroupChatModal = ({fetchMessages, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -51,7 +54,7 @@ const UpdateGroupChatModal = ({fetchMessages, children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(`http://localhost:8000/api/user?search=${search}`, config);
+      const { data } = await axios.get(`${HOST}/api/user?search=${search}`, config);
       console.log(data);
       setLoading(false);
       setSearchResult(data);
@@ -80,7 +83,7 @@ const UpdateGroupChatModal = ({fetchMessages, children }) => {
         },
       };
       const { data } = await axios.put(
-        `http://localhost:8000/api/chat/rename`,
+        `h${HOST}/api/chat/rename`,
         {
           chatId: selectedChat._id,
           chatName: groupChatName,
@@ -138,7 +141,7 @@ const UpdateGroupChatModal = ({fetchMessages, children }) => {
         },
       };
       const { data } = await axios.put(
-        `http://localhost:8000/api/chat/groupadd`,
+        `${Host}/api/chat/groupadd`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
@@ -184,7 +187,7 @@ const UpdateGroupChatModal = ({fetchMessages, children }) => {
       };
       console.log("User Removing")
       const { data } = await axios.put(
-        `http://localhost:8000/api/chat/groupremove`,
+        `${HOST}/api/chat/groupremove`,
         {
           chatId: selectedChat._id,
           userId: user1._id,

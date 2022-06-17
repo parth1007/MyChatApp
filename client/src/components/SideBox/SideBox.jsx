@@ -20,6 +20,11 @@ import Button from '@material-ui/core/Button';
 import { ChakraProvider } from "@chakra-ui/react";
 
 
+
+const HOST = "https://ryuzaki-chatapp.herokuapp.com";
+
+
+
 const SideBox = () => {
 
   // UseState Declarations
@@ -45,7 +50,7 @@ const SideBox = () => {
           Authorization: `Bearer ${user?.token}`,
         },
       };
-      const res = await axios.get('http://localhost:8000/api/chat', config);
+      const res = await axios.get(`${HOST}/api/chat`, config);
       console.log(res.data);
       setChats(res.data);
 

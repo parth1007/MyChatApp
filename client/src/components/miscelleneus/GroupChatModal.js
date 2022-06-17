@@ -18,6 +18,9 @@ import {
   import { ChatState } from "../../Context/ChatProvider";
   import UserBadgeItem from "./UserBadgeItem";
   import UserListItem1 from "./UserListItem1";
+
+  const HOST = "https://ryuzaki-chatapp.herokuapp.com";
+
   
   const GroupChatModal = ({ children }) => {
     
@@ -66,7 +69,7 @@ import {
             Authorization: `Bearer ${user.token}`,
           },
         };
-        const { data } = await axios.get(`http://localhost:8000/api/user?search=${search}`, config);
+        const { data } = await axios.get(`${HOST}/api/user?search=${search}`, config);
         console.log(data);
         setLoading(false);
         setSearchResult(data);
@@ -117,7 +120,7 @@ import {
           },
         };
         const { data } = await axios.post(
-          `http://localhost:8000/api/chat/group`,
+          `${HOST}/api/chat/group`,
           {
             name: groupChatName,
             users: JSON.stringify(selectedUsers.map((u) => u._id)),
