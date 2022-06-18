@@ -45,8 +45,30 @@
 /* Responsive CSS */
 
 
-@media screen and (max-width: 900px) {
-    .sidebox{
-        width: 35%;
+@media screen and (max-width: 650px) {
+
+    .login{
+      display: flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .loginDesc{
+      display: none;
+    }
+    .loginLogo{
+      font-size: 10vw;
+      margin-top: 0;
+    }
+    .loginLeft{
+      margin-bottom: 2rem;
+      margin-right: 0rem;
+    }
+    .loginWrapper{
+      height: auto;
+      flex-direction:column;
+      /* margin-top: 20vw; */
+    }
+    .loginBox{
+      height: 20rem;
     }
   }

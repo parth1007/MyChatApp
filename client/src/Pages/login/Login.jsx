@@ -3,6 +3,8 @@ import axios from "axios";
 import { useState,useEffect } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import "./login.css";
+// import useMediaQuery from "../..components/miscelleneus/useMediaQuery";
+
 
 const HOST = "https://ryuzaki-chatapp.herokuapp.com";
 
@@ -68,12 +70,12 @@ export default function Login() {
             Connect with friends and the world around you.
           </span>
         </div>
-        <form className="loginRight" onSubmit={handleSubmit}>
+        <form className="loginRight" style={{height: '25rem',marginTop:"4rem"}} onSubmit={handleSubmit}>
           <div className="loginBox">
             <input placeholder="Email" type="email" required className="loginInput" onChange={(e) => setEmail(e.target.value)}/>
             <input placeholder="Password" type="password" required minLength="6" className="loginInput" onChange={(e) => setPassword(e.target.value)}/> 
             <button className="loginButton">Log In</button>
-            <span className="loginForgot">Forgot Password?</span>
+            {/* <span className="loginForgot">Forgot Password?</span> */}
             <Link to='/register'>
               <button className="loginRegisterButton">
                 Create a New Account

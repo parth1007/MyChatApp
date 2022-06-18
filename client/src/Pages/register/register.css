@@ -84,3 +84,42 @@
       cursor: pointer;
       margin-top: 1rem;
   }
+
+  @media screen and (max-width: 900px) {
+
+    .loginLeft{
+      margin-right: 1rem;
+    }
+    .loginWrapper{
+      height: 50%;
+    }
+  }
+
+  @media screen and (max-width: 650px) {
+
+    .login{
+      display: flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .loginDesc{
+      display: none;
+    }
+    .loginLogo{
+      font-size: 10vw;
+      margin-top: 0;
+    }
+    .loginLeft{
+      margin-bottom: 2rem;
+      margin-right: 0rem;
+    }
+    .loginWrapper{
+      height: auto;
+      flex-direction:column;
+      width: 90%;
+      /* margin-top: 20vw; */
+    }
+    .loginBox{
+      height: 20rem;
+    }
+  }

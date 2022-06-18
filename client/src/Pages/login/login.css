@@ -82,3 +82,11 @@
       font-weight: 500;
       cursor: pointer;
   }
+
+
+  @media screen and (max-width: 900px) {
+
+    .loginWrapper{
+      height: 50%;
+    }
+  }
