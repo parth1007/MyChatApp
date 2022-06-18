@@ -69,7 +69,7 @@ const io = require("socket.io")(server, {
     // If user will not be active for 60 seconds it close connection to save bandwidth
     pingTimeout: 60000,
     cors: {
-      origin: "http://localhost:3000",
+      origin: "https://jolly-beignet-c52302.netlify.app",
       // credentials: true,
     },
   });
